@@ -1,0 +1,86 @@
+---
+title: "Exploratory Data Analysis (EDA)"
+format: html
+editor: visual
+---
+
+**Exploratory Data Analysis**
+
+As stated per the notes, Exploratory Data Analysis consists of a few steps:
+
+-   Understanding and analyzing how the data is stored
+
+-   Do basic data validation
+
+-   Determine how many missing values are there for each variable (check for missing values)
+
+-   Clean up data when necessary
+
+-   Investigate the distributions of the data
+
+-   Then, apply the data transformations to the original data
+
+**Data Structure**
+
+Through the **str()** command, we will check the structure of the data. **str()** stands for **structure.**
+
+```{r}
+#str(diabetes_health_indicators)
+```
+
+**Basic Data Validation**
+
+In order to perform the process of **basic data validation,** we could use the **psych::describe()** for a dataset. The **"psych"** package is an R package which contains various functions used for data analysis; and contains tools for data visualization, factor analysis, reliability analysis, correlation analysis, and more.
+
+```{r}
+#psych::describe(diabetes_health_indicators)
+```
+
+**Determining the Rate of Missing Values**
+
+```{r}
+#colSums(is.na(diabetes_health_indicators))
+```
+
+Determine Rate of Missing Values
+
+```{r}
+#sum_na <- function(column){
+ #sum(is.na(column))
+#}
+#na_counts <- diabetes_health_indicators |>
+ #summarize(across(everything(), sum_na))
+#na_counts
+```
+
+Clean Up Data as Needed
+
+```{r}
+#diabetes_health_indicators |>
+ #drop_na(names(diabetes_health_indicators)[na_counts < 30])
+
+```
+
+Imputing Values
+
+```{r}
+#diabetes_health_indicators <- diabetes_health_indicators |>
+ #replace_na(list(BMI = mean(diabetes_health_indicators$BMI, na.rm = TRUE),
+ #Height = mean(diabetes_health_indicators$Height, na.rm = TRUE)))
+#diabetes_health_indicators
+```
+
+Let's create factor versions of our three variables.
+
+```{r}
+#unique(diabetes_health_indicators$Sex)
+```
+
+Contingency Tables
+
+```{r}
+#diabetes_health_indicators |>
+ #group_by(Sex) |>
+ #drop_na(Sex) |>
+ #summarize(count = n())
+```

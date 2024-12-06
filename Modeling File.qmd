@@ -1,0 +1,88 @@
+---
+title: "Modeling File"
+format: html
+editor: visual
+---
+
+## Modeling File
+
+The test-train data is 70%-30%, hence we have to set our prop to "0.70".
+
+```{r}
+#set.seed(11)
+#diabetes_split <- initial_split(diabetes_health_indicators, prop = 0.70)
+#diabetes_train <- training(diabetes_split)
+#diabetes_test <- testing(diabetes_split)
+#diabetes_10_fold <- vfold_cv(diabetes_train, 10)
+```
+
+**Classification Tree**
+
+As discussed in the notes, the 5-fold cross-validation algorithm is a method for fitting and evaluating a model. As its name implies the 5-fold cross-validation splits the **training data** into **5 equal parts (also called "folds").**
+
+```{r}
+#LASSO_grid |>
+#collect_metrics() |>
+#filter(.metric == "rmse") |>
+#ggplot(aes(penalty, mean, color = .metric)) +
+#geom_line()
+```
+
+```{r}
+#lowest_rmse <- LASSO_grid |>
+#select_best(metric = "rmse")
+#lowest_rmse
+```
+
+**Random Forest Tree**
+
+According to the lectures, a "random forest" is a type of model, that is produced by generating "single" trees on models of data, as well as a subset of predictors (that is randomly selected) for each tree-splitting step. The predictors from each of the "single" trees are then combined to create the **overall prediction.**
+
+```{r}
+#rf_spec <- rand_forest(mtry = tune()) |>
+#set_engine("ranger",importance = "impurity") |>
+#set_mode("regression")
+```
+
+```{r}
+#rf_wkf <- workflow() |>
+#add_recipe(MLR_rec1) |>
+#add_model(rf_spec)
+```
+
+```{r}
+#rf_fit <- rf_wkf |>
+#tune_grid(resamples = bike_10_fold,
+#grid = 12)
+```
+
+```{r}
+#rf_fit |>
+#collect_metrics() |>
+#filter(.metric == "rmse") |>
+#arrange(mean)
+```
+
+```{r}
+#rf_fit |>
+#collect_metrics() |>
+#filter(.metric == "rmse") |>
+#arrange(mean)
+```
+
+```{r}
+#final_fit <- workflow() |>
+#add_recipe(MLR_rec1) |>
+#add_model(MLR_spec) |>
+#last_fit(diabetes_split, metrics = metric_set(rmse, mae))
+#final_fit |>
+#collect_metrics()
+```
+
+```{r}
+#workflow() |>
+#add_recipe(MLR_rec1) |>
+#add_model(MLR_spec) |>
+#fit(diabetes_train) |>
+#tidy()
+```
